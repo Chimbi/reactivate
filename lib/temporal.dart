@@ -134,8 +134,9 @@ class _PaginaInicioState extends State<PaginaInicio> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          ListTile(
-                            title: Center(
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
                               child: Text(
                                 "${menu.name}",
                                 style: TextStyle(
@@ -144,8 +145,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
                                     fontWeight: FontWeight.bold), textAlign: TextAlign.center,
                               ),
                             ),
-                            subtitle: menu.widget,
                           ),
+                          menu.widget
                         ],
                       ),
                     )),

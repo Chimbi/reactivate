@@ -8,7 +8,7 @@ class RegistroEmpleado extends StatefulWidget {
 }
 
 class _RegistroEmpleadoState extends State<RegistroEmpleado> {
-  Empleado empleado = Empleado();
+  Empleado empleado = Empleado(morbilidadEmpleado: [MorbilidadEmpleado()]);
   String fuma;
 
   TextEditingController pesoController = TextEditingController();
@@ -23,6 +23,27 @@ class _RegistroEmpleadoState extends State<RegistroEmpleado> {
     "Si",
     "No"
   ];
+
+  List<String> enfermedadesList = [
+    "Diabetes",
+    "Enfermedades Cardiovasculares",
+    "Hipertensión Arterial HTA",
+    "Accidente Cardiovascular ACV",
+    "Enfermedades Inmunosupresoras",
+    "Enfermedades Respiratorias",
+  ];
+
+  List<String> transporteList = [
+    "Bicicleta",
+    "Automovil",
+    "Moto",
+    "Transporte público",
+    "Taxi",
+    "Transporte de la empresa",
+    "A pie"
+  ];
+
+
 
 
   final GlobalKey<FormState> formKey = GlobalKey();
@@ -140,18 +161,39 @@ class _RegistroEmpleadoState extends State<RegistroEmpleado> {
                         );
                       }).toList(),
                     ),
-                    Center(
-                      child: RaisedButton(
-                        color: Colors.blue,
-                        onPressed: handleSubmit,
-                        child: Text("Enviar",style: TextStyle(color: Colors.white),),
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
           ),
+          SliverPadding(
+            padding: const EdgeInsets.all(15.0),
+            sliver: SliverToBoxAdapter(
+              child: Center(child: Text("Sufre alguna de estas enfermedades?",style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),)),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) => _buildList(context, enfermedadesList[index], index),
+            childCount: enfermedadesList.length),),
+          SliverPadding(
+            padding: const EdgeInsets.all(15.0),
+            sliver: SliverToBoxAdapter(
+              child: Center(child: Text("Como se moviliza al trabajo?",style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),)),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(8.0),
+            sliver: SliverToBoxAdapter(
+              child: Center(
+                child: RaisedButton(
+                  color: Colors.blue,
+                  onPressed: handleSubmit,
+                  child: Text("Enviar",style: TextStyle(color: Colors.white),),
+                ),
+              ),
+            ),
+          )
+
         ],
       ),
     );
@@ -172,6 +214,26 @@ class _RegistroEmpleadoState extends State<RegistroEmpleado> {
          */
       });
     }
+  }
+
+  Widget _buildList(BuildContext context, String enfermedad, int index) {
+    bool seleccion = false;
+    MorbilidadEmpleado morbilidad;
+    return SwitchListTile(
+      value: seleccion,
+      onChanged: (bool value) {
+        morbilidad = MorbilidadEmpleado(enfermedad: enfermedad, diagnostico: value);
+        print("Morbilidad afuera: ${morbilidad.enfermedad}: ${morbilidad.diagnostico}");
+        setState(() {
+          print("Enfermedad: ${enfermedad}, Diagnostico: ${value}");
+          if(morbilidad != null){
+            //TODO revisar que se guarde la informacion
+            empleado.morbilidadEmpleado?.insert(index, morbilidad);
+          }
+        });
+      },
+      title: Text(enfermedad),
+    );
   }
 }
 

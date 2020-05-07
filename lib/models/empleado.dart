@@ -50,7 +50,7 @@ class MorbilidadEmpleado {
   String enfermedad;
   bool diagnostico;
 
-  MorbilidadEmpleado(this.enfermedad, this.diagnostico);
+  MorbilidadEmpleado({this.enfermedad, this.diagnostico});
 
   toJson() {
     return {
