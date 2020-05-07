@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "502750432850",
+    "firebase_url": "https://reactivatecolombia.firebaseio.com",
+    "project_id": "reactivatecolombia",
+    "storage_bucket": "reactivatecolombia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502750432850:android:265dd4e3b38cb4b7be998b",
+        "android_client_info": {
+          "package_name": "co.com.creece.reactivate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502750432850-1kn77bbcnvus173ak53c737vend1mndj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.com.creece.reactivate",
+            "certificate_hash": "eefcc7b2a6183612247f6ec641eed08ca8aeb81c"
+          }
+        },
+        {
+          "client_id": "502750432850-aj254j9ph7j6240kprlhg83slh10ss8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCULcMncCBLEbr_-oLSvDKjUkHaEDsvJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502750432850-aj254j9ph7j6240kprlhg83slh10ss8u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "502750432850-hn863fkpknak3kjoa77bf69863mubk1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.com.creece.reactivate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
