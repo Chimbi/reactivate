@@ -1,19 +1,36 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reactivate/lavado_manos.dart';
 import 'package:reactivate/login.dart';
 import 'package:reactivate/registro_empleado.dart';
+import 'package:reactivate/reporte_movimientos.dart';
+import 'package:reactivate/reporte_sintomas.dart';
 import 'package:reactivate/temporal.dart';
+import 'package:reactivate/tutoriales.dart';
+import 'package:reactivate/utils/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(MaterialApp(home: prefs.getString('uid') == null ? LoginPage() : PaginaInicio(),
-    routes: {
-    '/inicio': (context) => PaginaInicio(),
-      '/empleado': (context) => RegistroEmpleado(),
-  },));
+  runApp(MultiProvider(
+    providers: [
+      StreamProvider<FirebaseUser>.value(value: AuthService().user),
+    ],
+    child: MaterialApp(home: prefs.getString('uid') == null ? LoginPage() : PaginaInicio(),
+      debugShowCheckedModeBanner: false,
+      routes: {
+      '/inicio': (context) => PaginaInicio(),
+        '/empleado': (context) => RegistroEmpleado(),
+        '/sintomas': (context) => ReporteSintomas(),
+        '/manos': (context) => LavadoManos(),
+        '/movimientos': (context) => ReporteMovimientos(),
+        '/tutoriales': (context) => Tutoriales(),
+    },),
+  ));
 }
 
 /*

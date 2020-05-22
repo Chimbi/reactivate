@@ -1,32 +1,43 @@
-/*
 
-import 'package:prefacero_app/bloc/corteBloc.dart';
-import 'package:prefacero_app/model/order.dart';
-import 'package:prefacero_app/model/produccion.dart';
-import 'package:prefacero_app/model/regContable.dart';
-import 'package:prefacero_app/model/user.dart';
-import 'package:prefacero_app/utils/auth.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:prefacero_app/model/producto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
+
+import 'package:reactivate/utils/auth.dart';
 
 class DatabaseService {
 
   final Firestore _db = Firestore.instance;
   final AuthService auth = AuthService();
 
+  /*
   Future<Producto> getProd(String prod) async{
     var snap = await _db.collection('Producto').document('$prod').get();
     return Producto.fromMap(snap.data);
   }
 
-  Future<DocumentReference> setProd(Map<String,dynamic> json) async{
-    DocumentReference pedidoRef = Firestore.instance.collection('Producto').document("${json["nombre"]}");
+   */
+
+  Future<DocumentReference> setProd(Map<String,dynamic> json, FirebaseUser user) async{
+    DocumentReference pedidoRef = Firestore.instance.collection('empleados').document(user.uid);
     await pedidoRef.setData(json);
     return pedidoRef;
   }
 
+  Future<DocumentReference> setRepDiario(Map<String,dynamic> json, FirebaseUser user) async{
+    DocumentReference pedidoRef = Firestore.instance.collection('empleados/${user.uid}/repDiario').document(DateTime.now().toLocal().toIso8601String());
+    await pedidoRef.setData(json);
+    return pedidoRef;
+  }
+
+  Future<DocumentReference> setLavado(FirebaseUser user) async{
+    DocumentReference pedidoRef = Firestore.instance.collection('empleados/${user.uid}/lavadoManos').document('registro');
+    await pedidoRef.setData({"fechaHora":DateTime.now().toLocal().toIso8601String()},merge: true);
+    return pedidoRef;
+  }
+
+/*
   Future<Produccion> getProduccion(String prod, int cantidad, String tipoRollo) async{
     Produccion infoProd;
     var snap = await _db.collection('Producto/$prod/Produccion').document('infoProduccion').get();
@@ -146,6 +157,7 @@ class DatabaseService {
       "ordenProduccion": {prod : orden.listProdPerfiles[index].toMap()}
     },merge: true);
   }
+
 
   //TODO actualizar el consumo de rollo en el bloc
   Future<DetalleRollo> setConsumoRollo (OrdenProduccion orden, ConsumoRollo consumo, DetalleRollo rollo){
@@ -595,6 +607,8 @@ class DatabaseService {
 
 }
 
+
+ */
 loadData() async {
   var data = await DatabaseService().getQuiz('angular');
 
@@ -603,4 +617,3 @@ loadData() async {
 }
 */
 }
- */

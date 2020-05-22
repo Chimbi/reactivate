@@ -8,15 +8,18 @@ class Empleado {
   int edad;
   int altura;
   int peso;
-  bool fuma;
+  String fuma;
+
   int noPersonas;
-  List<MorbilidadEmpleado> morbilidadEmpleado;
-  List<MorbilidadFamilia> morbilidadFamilia;
-  List<Transporte> transporte;
+  Map<String,bool> mapMorbilidadEmpl;
+  Map<String,bool> mapTransporte;
+  Map<String,bool> mapSintomas;
+
+
 
   Empleado({this.nombre, this.apellido, this.numCedula, this.celular, this.edad,
       this.altura, this.peso, this.fuma, this.noPersonas,
-      this.morbilidadEmpleado, this.morbilidadFamilia, this.transporte});
+      this.mapMorbilidadEmpl, this.mapTransporte, this.mapSintomas});
 
   Map<String, dynamic> toMap(){
     return {
@@ -29,6 +32,9 @@ class Empleado {
       "peso": peso,
       "fuma": fuma,
       "noPersonas": noPersonas,
+      "mapMorbilidadEmpl": mapMorbilidadEmpl,
+      "mapTransporte": mapTransporte,
+      //"mapSintomas": mapSintomas,
     };
   }
 
@@ -50,7 +56,7 @@ class MorbilidadEmpleado {
   String enfermedad;
   bool diagnostico;
 
-  MorbilidadEmpleado({this.enfermedad, this.diagnostico});
+  MorbilidadEmpleado(this.enfermedad, this.diagnostico);
 
   toJson() {
     return {
@@ -90,4 +96,5 @@ bool acv;
 bool inmunosupresoras;
 bool respiratorias;
  */
+
 

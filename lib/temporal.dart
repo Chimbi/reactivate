@@ -17,11 +17,11 @@ const Color colorIcono = Colors.amber;
 
 final List<MenuRoute> menu = <MenuRoute>[
   MenuRoute("Datos del trabajador", '/empleado', Icon(Icons.account_box, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte diario de sintomas", '/inicio', Icon(Icons.add_alert, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte de lavado de manos", '/inicio', Icon(Icons.pan_tool, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte de movimientos", '/inicio', Icon(Icons.directions_bike, size: 40.0, color: colorIcono)),
+  MenuRoute("Reporte diario de sintomas", '/sintomas', Icon(Icons.add_alert, size: 40.0, color: colorIcono)),
+  MenuRoute("Reporte de lavado de manos", '/manos', Icon(Icons.pan_tool, size: 40.0, color: colorIcono)),
+  MenuRoute("Reporte de movimientos", '/movimientos', Icon(Icons.directions_bike, size: 40.0, color: colorIcono)),
   MenuRoute("Protocolo de Bioseguridad", '/inicio', Icon(Icons.format_list_numbered, size: 40.0, color: colorIcono)),
-  MenuRoute("Tutoriales de Bioseguridad", '/inicio', Icon(Icons.computer, size: 40.0, color: colorIcono)),
+  MenuRoute("Tutoriales de Bioseguridad", '/tutoriales', Icon(Icons.computer, size: 40.0, color: colorIcono)),
 ];
 
 
@@ -67,7 +67,9 @@ class _PaginaInicioState extends State<PaginaInicio> {
       ],
     );
     return Scaffold(
-      floatingActionButton: FloatingActionButton(backgroundColor: Colors.red[700], child: Icon(Icons.pan_tool, color: Colors.white,), onPressed: (){},),
+      floatingActionButton: FloatingActionButton(backgroundColor: Colors.red[700], child: Icon(Icons.pan_tool, color: Colors.white,), onPressed: (){
+        Navigator.pushNamed(context, '/manos');
+      },),
       drawer: Drawer(
         elevation: 10.0,
         child: drawerItems,
