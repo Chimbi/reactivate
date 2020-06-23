@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
 import 'package:reactivate/utils/auth.dart';
@@ -19,23 +20,62 @@ class DatabaseService {
 
    */
 
-  Future<DocumentReference> setProd(Map<String,dynamic> json, FirebaseUser user) async{
-    DocumentReference pedidoRef = Firestore.instance.collection('empleados').document(user.uid);
-    await pedidoRef.setData(json);
-    return pedidoRef;
+  Future<DocumentReference> setEmpleado(Map<String,dynamic> json, FirebaseUser user) async{
+    DocumentReference empleadosRef = Firestore.instance.collection('empleados').document(user.uid);
+    DocumentReference privateRef = Firestore.instance.document('empleados/${user.uid}/PrivateData/private');
+    await privateRef.setData({"rol": "Empleado"});
+    await empleadosRef.setData(json, merge: true);
+    return empleadosRef;
+  }
+
+  //Revisar cuantos registros genera por dia
+  Future<DocumentReference> setLavado(bool reporte, FirebaseUser user) async{
+    DocumentReference lavadoRef = Firestore.instance.collection('empleados/${user.uid}/lavadoManos').document(DateTime.now().toLocal().toIso8601String());
+    await lavadoRef.setData({"lavado": reporte, "fecha": DateTime.now().toLocal().toIso8601String()});
+    return lavadoRef;
   }
 
   Future<DocumentReference> setRepDiario(Map<String,dynamic> json, FirebaseUser user) async{
-    DocumentReference pedidoRef = Firestore.instance.collection('empleados/${user.uid}/repDiario').document(DateTime.now().toLocal().toIso8601String());
-    await pedidoRef.setData(json);
-    return pedidoRef;
+    DocumentReference reporteRef = Firestore.instance.collection('empleados/${user.uid}/repDiario').document(DateTime.now().toLocal().toIso8601String());
+    await reporteRef.setData(json);
+    return reporteRef;
   }
 
-  Future<DocumentReference> setLavado(FirebaseUser user) async{
-    DocumentReference pedidoRef = Firestore.instance.collection('empleados/${user.uid}/lavadoManos').document('registro');
-    await pedidoRef.setData({"fechaHora":DateTime.now().toLocal().toIso8601String()},merge: true);
-    return pedidoRef;
+  Future<DocumentReference> aceptaTerminos(bool respuesta, FirebaseUser user) async {
+    DocumentReference empleadosRef = Firestore.instance.collection('empleados').document(user.uid);
+    await empleadosRef.setData({"terminos": respuesta}, merge: true);
+    return empleadosRef;
   }
+
+  Future<void> autorizacion(context, FirebaseUser user) async{
+    DocumentSnapshot snap = await Firestore.instance.document('empleados/${user.uid}/PrivateData/private').get();
+    var test = snap.data['rol'];
+    //QuerySnapshot query = await _db.collection('/Intermediario/$uid/PrivateData/').getDocuments();
+    if(test == 'Encargado'){
+      Navigator.pushNamed(context, '/menuEncargado');
+    }
+    else {
+      print("No tiene perfil de control técnico");
+    }
+  }
+
+  Future<void> setUpload(String url, String polizaId, String fileName,) async {
+    var file = fileName.split('.').first;
+    await _db.collection('uploads').document(polizaId).setData({
+      "$file":"$url"
+    }, merge: true);
+  }
+
+  Future<void> deleteUpload(String polizaId, String filename) async{
+    var file = filename.split('.').first;
+    DocumentReference docRef = await _db.collection('Uploads').document(polizaId);
+    docRef.updateData({
+      file : FieldValue.delete()
+    }).whenComplete((){
+      print("Field Deleted");
+    });
+  }
+
 
 /*
   Future<Produccion> getProduccion(String prod, int cantidad, String tipoRollo) async{
@@ -54,7 +94,7 @@ class DatabaseService {
     return infoProd;
   }
 
-  Future<DocumentReference> setRegContable(Map<String,dynamic> json, String key, String producto) async{
+  Future<DocumentReference> setRegContable(Map<String,dynamic> json, String key, String producto) async {
     DocumentReference pedidoRef = Firestore.instance.collection('Producto/$producto/Contabilidad').document("Terminado");
     var jsonNuevo = {
       "entry" : {

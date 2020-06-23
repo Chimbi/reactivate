@@ -1,8 +1,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reactivate/cargar_protocolo.dart';
 import 'package:reactivate/lavado_manos.dart';
 import 'package:reactivate/login.dart';
+import 'package:reactivate/menu_encargado.dart';
 import 'package:reactivate/registro_empleado.dart';
 import 'package:reactivate/reporte_movimientos.dart';
 import 'package:reactivate/reporte_sintomas.dart';
@@ -29,6 +31,9 @@ Future<void> main() async{
         '/manos': (context) => LavadoManos(),
         '/movimientos': (context) => ReporteMovimientos(),
         '/tutoriales': (context) => Tutoriales(),
+        '/login': (context) => LoginPage(),
+        '/menuEncargado': (context) => MenuEncargado(),
+        '/protocolo': (context) => CargarProtocolo(),
     },),
   ));
 }

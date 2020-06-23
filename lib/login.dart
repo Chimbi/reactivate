@@ -6,8 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:reactivate/temporal.dart';
 import 'package:reactivate/utils/auth.dart';
+import 'package:reactivate/utils/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:provider/provider.dart';
 
@@ -159,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _submitForm(Function authenticate) async {
+    var user = Provider.of<FirebaseUser>(context, listen: false);
     //var polizaObj = Provider.of<Order>(context);
     if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
       if(!_formData['acceptTerms']){
@@ -186,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
     Map<String, dynamic> successInformation;
     successInformation = await authenticate(_formData['email'], _formData['password'], _authMode);
     if (successInformation['success']) {
+      print("Existe user: ${user?.uid}");
 
       //print("PolizaObj.intermediary: ${polizaObj.intermediary.toString()}");
       /*
@@ -198,11 +202,12 @@ class _LoginPageState extends State<LoginPage> {
         //Intermediary creation page
       };
       */
+      Navigator.push(context, MaterialPageRoute(builder: (context) => PaginaInicio()));
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PaginaInicio()),
-      );
+      //TODO check if in this point the user is available
+      //DatabaseService().aceptaTerminos(successInformation['success'], user);
+
+
       //TODO forma insegura para ingreso, cambiar por dirección de la ventana
 
 
@@ -356,7 +361,10 @@ class _LoginPageState extends State<LoginPage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Condiciones!'),
-                              content: Text("Aca van las condiciones de la aplicación"),
+                              content: Text("Doy consentimiento para que utilicen los siguientes datos "
+                                  "por parte de la empresa exclusivamente para el siguimiento epidemiológico de la infeccion por COVID-19. "
+                                  "La empresa mantendrá reserva de estos datos y los divulgara solamente a las autoridades de salud o "
+                                  "laborales si son requeridos."),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text('Ok'),

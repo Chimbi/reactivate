@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:reactivate/login.dart';
+import 'package:reactivate/utils/db.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,8 +62,9 @@ class AuthService{
 */
 
 
-  Future<void> updateUserData(FirebaseUser user) {
+  Future<void> updateUserData(FirebaseUser user) async {
     print("User id: ${user.uid}");
+    await DatabaseService().aceptaTerminos(true, user);
     DocumentReference reportRef = _db.collection('reportes').document(user.uid);
     return reportRef.setData({
       'uid': user.uid,

@@ -228,7 +228,6 @@ class _RegistroEmpleadoState extends State<RegistroEmpleado> {
               ),
             ),
           )
-
         ],
       ),
     );
@@ -242,7 +241,7 @@ class _RegistroEmpleadoState extends State<RegistroEmpleado> {
         form.save();
         //form.reset();
 
-        DatabaseService().setProd(empleado.toMap(), user).then((_) {
+        DatabaseService().setEmpleado(empleado.toMap(), user).then((_) {
           Navigator.pop(context);
         });
       });

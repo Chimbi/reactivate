@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reactivate/login.dart';
 import 'package:reactivate/utils/auth.dart';
-import 'package:reactivate/utils/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -19,25 +16,24 @@ const Color hintCol = Color(0xff003f75);//;
 const Color colorIcono = Colors.amber;
 
 final List<MenuRoute> menu = <MenuRoute>[
-  MenuRoute("Datos del trabajador", '/empleado', Icon(Icons.account_box, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte diario de sintomas", '/sintomas', Icon(Icons.add_alert, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte de lavado de manos", '/manos', Icon(Icons.pan_tool, size: 40.0, color: colorIcono)),
-  MenuRoute("Reporte de movimientos", '/movimientos', Icon(Icons.directions_bike, size: 40.0, color: colorIcono)),
-  MenuRoute("Protocolo de Bioseguridad", '/inicio', Icon(Icons.format_list_numbered, size: 40.0, color: colorIcono)),
-  MenuRoute("Tutoriales de Bioseguridad", '/tutoriales', Icon(Icons.computer, size: 40.0, color: colorIcono)),
+  MenuRoute("Resumen", '/empleado', Icon(Icons.report, size: 40.0, color: colorIcono)),
+  MenuRoute("Cuadro de control", '/sintomas', Icon(Icons.people, size: 40.0, color: colorIcono)),
+  MenuRoute("Reporte caso COVID-19", '/manos', Icon(Icons.local_hospital, size: 40.0, color: colorIcono)),
+  MenuRoute("Reporte cuarentena", '/movimientos', Icon(Icons.home, size: 40.0, color: colorIcono)),
+  MenuRoute("Registro de comunicacion", '/movimientos', Icon(Icons.phone, size: 40.0, color: colorIcono)),
+  MenuRoute("Cargar Protocolo de la empresa", '/protocolo', Icon(Icons.insert_drive_file, size: 40.0, color: colorIcono)),
 ];
 
 
 
-class PaginaInicio extends StatefulWidget {
+class MenuEncargado extends StatefulWidget {
   @override
-  _PaginaInicioState createState() => _PaginaInicioState();
+  _MenuEncargadoState createState() => _MenuEncargadoState();
 }
 
-class _PaginaInicioState extends State<PaginaInicio> {
+class _MenuEncargadoState extends State<MenuEncargado> {
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<FirebaseUser>(context);
     final drawerHeader = UserAccountsDrawerHeader(
         accountEmail: Text("user.email"),
         accountName: Text("Cuenta"),
@@ -51,8 +47,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
       children: <Widget>[
         drawerHeader,
         ListTile(
-          title: Text('Menu Empresa'),
-          onTap: () => DatabaseService().autorizacion(context, user),
+            title: Text('Pedido nuevo'),
+            onTap: () => {}//Navigator.pushNamed(context, '/pedido'),
         ),
         /*
         ListTile(
@@ -67,10 +63,10 @@ class _PaginaInicioState extends State<PaginaInicio> {
         ListTile(
             title: Text('Salir'),
             onTap: () {
-            auth.signOut(context);
-            //Navigator.popUntil(context, ModalRoute.withName('/login'));
-            Navigator.pop(context);
-            Navigator.pop(context);
+              auth.signOut(context);
+              //Navigator.popUntil(context, ModalRoute.withName('/login'));
+              Navigator.pop(context);
+              Navigator.pop(context);
             }//Navigator.pushNamed(context, '/profile')
         ),
       ],
@@ -121,46 +117,46 @@ class _PaginaInicioState extends State<PaginaInicio> {
       child: Column(
           children: <Widget>[
             InkWell(
-            onTap: () async {
-              Navigator.pushNamed(context, menu.route);
-            },
+              onTap: () async {
+                Navigator.pushNamed(context, menu.route);
+              },
               child: Card(
-                    elevation: 7.0,
-                    margin: EdgeInsets.all(5.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [BoxShadow(
-                              blurRadius: 20.0,
-                              offset: Offset(8, 8),
-                              color: Colors.black54
-                          )],
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          gradient: LinearGradient(
-                            colors: [Colors.blue[700], Colors.blue], //hintCol
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          )
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                "${menu.name}",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.bold), textAlign: TextAlign.center,
-                              ),
+                  elevation: 7.0,
+                  margin: EdgeInsets.all(5.0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: [BoxShadow(
+                            blurRadius: 20.0,
+                            offset: Offset(8, 8),
+                            color: Colors.black54
+                        )],
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[700], Colors.blue], //hintCol
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              "${menu.name}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold), textAlign: TextAlign.center,
                             ),
                           ),
-                          menu.widget
-                        ],
-                      ),
-                    )),
+                        ),
+                        menu.widget
+                      ],
+                    ),
+                  )),
             ),
           ]
       ),
