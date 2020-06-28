@@ -29,7 +29,7 @@ class _UploaderState extends State<Uploader> {
     var url;
     _fileName = path != null ? path.split('/').last : '...';
     String filePath = 'docSoporte/${widget.nit}/$_fileName';
-    final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://appsolidaria.appspot.com/');
+    final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://reactivatecolombia.appspot.com');
     StorageReference storageRef = _storage.ref().child(filePath);
     setState(() {
       _uploadTask = storageRef.putFile(widget.file);
